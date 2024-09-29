@@ -55,4 +55,6 @@ dependencies {
 
     implementation("com.google.firebase:firebase-auth-ktx:22.0.0")
     implementation("com.google.android.gms:play-services-auth:20.2.0")
+
+    implementation("androidx.health.connect:connect-client:1.0.0-alpha10")
 }
