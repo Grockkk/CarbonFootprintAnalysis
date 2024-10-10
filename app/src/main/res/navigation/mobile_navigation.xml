@@ -22,4 +22,8 @@
         android:name="com.study.mastersdegree.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.study.mastersdegree.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>
