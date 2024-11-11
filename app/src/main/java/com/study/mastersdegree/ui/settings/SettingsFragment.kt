@@ -1,39 +1,55 @@
+// SettingsFragment.kt
 package com.study.mastersdegree.ui.settings
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.study.mastersdegree.R
 import com.study.mastersdegree.databinding.FragmentSettingsBinding
-import com.study.mastersdegree.ui.dashboard.DashboardViewModel
+import com.study.mastersdegree.ui.shared.SharedViewModel
 
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val settingsViewModel =
-            ViewModelProvider(this).get(SettingsViewModel::class.java)
-
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        settingsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        // Konfiguracja Spinnera z zasobem string-array
+        val spinner: Spinner = binding.spinnerString
+        val options = resources.getStringArray(R.array.spinner_options)
+        spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, options)
+
+        // Obsługa przycisku "Save"
+        binding.buttonSave.setOnClickListener {
+            val selectedText = spinner.selectedItem.toString()
+            sharedViewModel.setGlobalString(selectedText)
+
+            val doubleInput: EditText = binding.editDouble
+            val doubleValue = doubleInput.text.toString().toDoubleOrNull()
+
+            if (doubleValue != null) {
+                sharedViewModel.setGlobalDouble(doubleValue)
+                Toast.makeText(requireContext(), "Values saved", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Please enter a valid number", Toast.LENGTH_SHORT).show()
+            }
         }
-        return root
+
+        return binding.root
     }
 
     override fun onDestroyView() {
