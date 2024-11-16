@@ -28,12 +28,23 @@ class SettingsFragment : Fragment() {
     ): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
 
-        // Konfiguracja Spinnera z zasobem string-array
+        // Konfiguracja Spinnera
         val spinner: Spinner = binding.spinnerString
         val options = resources.getStringArray(R.array.spinner_options)
         spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, options)
 
-        // Obsługa przycisku "Save"
+        // Ustawienie Spinnera na zapisanej wartości
+        sharedViewModel.globalString.observe(viewLifecycleOwner) { selectedOption ->
+            val position = options.indexOf(selectedOption)
+            if (position >= 0) spinner.setSelection(position)
+        }
+
+        // Ustawienie EditText na zapisanej wartości
+        sharedViewModel.globalDouble.observe(viewLifecycleOwner) { doubleValue ->
+            binding.editDouble.setText(doubleValue.toString())
+        }
+
+        // Obsługa przycisku Save
         binding.buttonSave.setOnClickListener {
             val selectedText = spinner.selectedItem.toString()
             sharedViewModel.setGlobalString(selectedText)

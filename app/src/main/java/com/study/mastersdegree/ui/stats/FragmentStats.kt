@@ -23,7 +23,7 @@ class FragmentStats : Fragment() {
     ): View {
         _binding = FragmentStatsBinding.inflate(inflater, container, false)
 
-        // Obserwacja wartości w SharedViewModel i wyświetlanie w TextView
+        // Wyświetlanie wartości z SharedViewModel
         sharedViewModel.globalString.observe(viewLifecycleOwner) { stringValue ->
             binding.textDashboard.text = "String value: $stringValue"
         }
