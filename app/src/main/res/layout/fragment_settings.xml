@@ -28,7 +28,6 @@
         android:text="Save"
         android:layout_gravity="center_horizontal" />
 
-    <!-- Przycisk wylogowania -->
     <Button
         android:id="@+id/button_logout"
         android:layout_width="wrap_content"
