@@ -1,6 +1,7 @@
 package com.study.mastersdegree.ui.exercise
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -14,8 +15,11 @@ import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.*
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.study.mastersdegree.R
+import org.osmdroid.config.Configuration
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
+import org.osmdroid.util.GeoPoint
 
 class FragmentExercise : Fragment() {
 
@@ -36,6 +40,7 @@ class FragmentExercise : Fragment() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
+    private lateinit var mapView: MapView
 
     private val updateTimerRunnable = object : Runnable {
         override fun run() {
@@ -55,7 +60,15 @@ class FragmentExercise : Fragment() {
     ): View {
         val root = inflater.inflate(R.layout.fragment_exercise, container, false)
 
-        // Bind views
+        // Initialize map
+        Configuration.getInstance().load(
+            requireContext(),
+            requireContext().getSharedPreferences("osmdroid", Context.MODE_PRIVATE)
+        )
+        mapView = root.findViewById(R.id.mapview)
+        initializeMap()
+
+        // Initialize UI elements
         timerText = root.findViewById(R.id.timer_text)
         distanceText = root.findViewById(R.id.distance_text)
         timeElapsedText = root.findViewById(R.id.time_elapsed)
@@ -63,7 +76,6 @@ class FragmentExercise : Fragment() {
         buttonPause = root.findViewById(R.id.button_pause)
         buttonStop = root.findViewById(R.id.button_stop)
 
-        // Set listeners
         buttonStart.setOnClickListener { startTimer() }
         buttonPause.setOnClickListener { pauseTimer() }
         buttonStop.setOnClickListener { stopTimer() }
@@ -75,6 +87,24 @@ class FragmentExercise : Fragment() {
         return root
     }
 
+    private fun initializeMap() {
+        mapView.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK)
+        mapView.setMultiTouchControls(true)
+
+        // Set initial position (e.g., Warsaw)
+        val mapController = mapView.controller
+        mapController.setZoom(15.0)
+        val startPoint = GeoPoint(52.2297, 21.0122)
+        mapController.setCenter(startPoint)
+
+        // Add a marker for the start location
+        val startMarker = Marker(mapView)
+        startMarker.position = startPoint
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+        startMarker.title = "Start Location"
+        mapView.overlays.add(startMarker)
+    }
+
     private fun initializeLocationTracking() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
@@ -84,11 +114,30 @@ class FragmentExercise : Fragment() {
                             distanceTravelled += lastLocation!!.distanceTo(location)
                         }
                         lastLocation = location
+                        // Update the map with the current location
+                        updateMapLocation(location)
                     }
-                    distanceText.text = "Distance: %.2f m".format(distanceTravelled)
+                    // Update distance display in kilometers
+                    distanceText.text = "Distance: %.2f km".format(distanceTravelled / 1000)
                 }
             }
         }
+    }
+
+    private fun updateMapLocation(location: Location) {
+        val currentGeoPoint = GeoPoint(location.latitude, location.longitude)
+        val mapController = mapView.controller
+        mapController.setCenter(currentGeoPoint)
+
+        // Create or update the marker to show the current location
+        val marker = Marker(mapView)
+        marker.position = currentGeoPoint
+        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+        marker.title = "Your Location"
+
+        // Clear previous markers and add the new one
+        mapView.overlays.clear()
+        mapView.overlays.add(marker)
     }
 
     private fun startLocationUpdates() {
@@ -156,24 +205,28 @@ class FragmentExercise : Fragment() {
             stopLocationUpdates()
         }
 
-        // Show elapsed time and distance
-        timeElapsedText.text = "Time Elapsed: ${formatTime(elapsedTime)}\nDistance: %.2f m".format(distanceTravelled)
+        timeElapsedText.text = "Time Elapsed: ${formatTime(elapsedTime)}\nDistance: %.2f km".format(distanceTravelled / 1000)
         timeElapsedText.visibility = View.VISIBLE
 
-        // Reset values
         elapsedTime = 0L
         distanceTravelled = 0.0
         timerText.text = "00:00:00"
-        distanceText.text = "Distance: 0.0 m"
+        distanceText.text = "Distance: 0.0 km"
         buttonStart.visibility = View.VISIBLE
         buttonPause.visibility = View.GONE
         buttonStop.visibility = View.GONE
     }
 
     private fun formatTime(timeInMillis: Long): String {
-        val seconds = (timeInMillis / 1000) % 60
-        val minutes = (timeInMillis / (1000 * 60)) % 60
-        val hours = (timeInMillis / (1000 * 60 * 60))
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds)
+        val seconds = timeInMillis / 1000 % 60
+        val minutes = timeInMillis / 60000 % 60
+        val hours = timeInMillis / 3600000
+        return "%02d:%02d:%02d".format(hours, minutes, seconds)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mapView.onDetach()
+        handler.removeCallbacks(updateTimerRunnable)
     }
 }

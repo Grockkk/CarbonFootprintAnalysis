@@ -7,6 +7,13 @@
     android:padding="16dp"
     tools:context=".ui.exercise.FragmentExercise">
 
+    <!-- Map view at the top -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+
+    <!-- Existing UI elements -->
     <TextView
         android:id="@+id/timer_text"
         android:layout_width="match_parent"
