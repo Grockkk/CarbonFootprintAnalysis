@@ -28,4 +28,13 @@
         android:text="Save"
         android:layout_gravity="center_horizontal" />
 
+    <!-- Przycisk wylogowania -->
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp" />
+
 </LinearLayout>
