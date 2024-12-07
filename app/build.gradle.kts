@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.study.mastersdegree"
-        minSdk = 30
+        minSdk = 34
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -54,11 +54,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
     implementation("org.osmdroid:osmdroid-android:6.1.14")
-
     implementation("com.google.firebase:firebase-auth-ktx:22.0.0")
     implementation("com.google.android.gms:play-services-auth:20.5.0")
-
     implementation("androidx.health.connect:connect-client:1.0.0-alpha10")
 }
