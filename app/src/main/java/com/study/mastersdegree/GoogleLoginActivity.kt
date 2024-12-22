@@ -8,9 +8,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.fragment.app.Fragment
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -18,20 +15,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import androidx.health.connect.client.HealthConnectClient
-import androidx.health.connect.client.PermissionController
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.DistanceRecord
-import androidx.health.platform.client.permission.Permission
 import androidx.lifecycle.lifecycleScope
-import com.study.mastersdegree.helpers.HealthConnect
 import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.ZonedDateTime
 
 class GoogleLoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private val RC_SIGN_IN = 9001
-    private lateinit var healthConnect: HealthConnect
 
     private lateinit var healthConnectClient : HealthConnectClient
     private lateinit var gsc: GoogleSignInClient
@@ -72,11 +64,6 @@ class GoogleLoginActivity : AppCompatActivity() {
         findViewById<Button>(R.id.sign_in_button).setOnClickListener {
             checkPermissionsAndRun()
         }
-
-
-
-
-
     }
 
     private fun checkPermissionsAndRun() {

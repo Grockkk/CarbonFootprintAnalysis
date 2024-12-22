@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
@@ -73,7 +72,7 @@ class SettingsFragment : Fragment() {
                 sharedViewModel.setGlobalDouble(doubleValue)
                 Toast.makeText(requireContext(), "Values saved", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "Please enter a valid number $goalValue", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please enter a valid numbers", Toast.LENGTH_SHORT).show()
             }
         }
 

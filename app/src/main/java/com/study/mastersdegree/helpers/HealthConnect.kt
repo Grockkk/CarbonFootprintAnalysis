@@ -1,19 +1,14 @@
 package com.study.mastersdegree.helpers
 
 import android.content.Context
-import android.util.Log
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.records.DistanceRecord
-import androidx.health.connect.client.request.AggregateGroupByPeriodRequest
 import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import java.time.Duration
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.Period
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import kotlin.math.round
 
 class HealthConnect(private val context: Context) {
     private val healthConnectClient = HealthConnectClient.getOrCreate(context)
@@ -78,50 +73,5 @@ class HealthConnect(private val context: Context) {
         }
 
         return results
-    }
-
-    suspend fun getWeeklyData(
-        healthConnectClient: HealthConnectClient,
-        startTime: LocalDateTime,
-        endTime: LocalDateTime
-    ): List<Double> {
-        try {
-            val aggregatedResults = healthConnectClient.aggregateGroupByPeriod(
-                AggregateGroupByPeriodRequest(
-                    metrics = setOf(DistanceRecord.DISTANCE_TOTAL),
-                    timeRangeFilter = TimeRangeFilter.between(startTime, endTime),
-                    timeRangeSlicer = Period.ofDays(1)
-                )
-            )
-
-            var MaxRecord = 0.0
-            var MinRecord = 100000.0
-
-            val distRecords = mutableListOf<Double>()
-            for (result in aggregatedResults) {
-                val totalDist = result.result[DistanceRecord.DISTANCE_TOTAL]?.inKilometers
-                if (totalDist != null) {
-                    if (totalDist > MaxRecord){
-                        MaxRecord = totalDist
-                    }
-                    if (totalDist < MinRecord){
-                        MinRecord = totalDist
-                    }
-                }
-            }
-
-            MaxRecord = round(MaxRecord * 100) / 100
-            MinRecord = round(MinRecord * 100) / 100
-
-            distRecords.add(MaxRecord)
-            distRecords.add(MinRecord)
-
-            return distRecords
-        } catch (e: Exception) {
-            // Obsługa błędów
-            Log.e("AggregationError", "An error occurred during aggregation: ${e.message}")
-            e.printStackTrace()
-            return emptyList()
-        }
     }
 }
