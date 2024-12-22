@@ -8,7 +8,8 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.Fragment
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -20,15 +21,23 @@ import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.PermissionController
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.DistanceRecord
+import androidx.health.platform.client.permission.Permission
 import androidx.lifecycle.lifecycleScope
+import com.study.mastersdegree.helpers.HealthConnect
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
 
 class GoogleLoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private val RC_SIGN_IN = 9001
+    private lateinit var healthConnect: HealthConnect
+
+    private lateinit var healthConnectClient : HealthConnectClient
+    private lateinit var gsc: GoogleSignInClient
 
     private val PERMISSIONS = setOf(
         HealthPermission.getReadPermission(DistanceRecord::class),
-        HealthPermission.getWritePermission(DistanceRecord::class)
     )
 
     private lateinit var requestPermissionsLauncher: ActivityResultLauncher<Array<String>>
@@ -36,12 +45,15 @@ class GoogleLoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_google_login)
+        healthConnectClient = initializeGoogle()
+        val now = ZonedDateTime.now(ZoneId.systemDefault())
+
+        val startOfDay = now.toLocalDate().atStartOfDay(ZoneId.systemDefault())
 
         // Inicjalizacja Google Sign-In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
-
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         // Rejestracja wyników żądania zezwoleń
@@ -60,6 +72,11 @@ class GoogleLoginActivity : AppCompatActivity() {
         findViewById<Button>(R.id.sign_in_button).setOnClickListener {
             checkPermissionsAndRun()
         }
+
+
+
+
+
     }
 
     private fun checkPermissionsAndRun() {
@@ -101,5 +118,14 @@ class GoogleLoginActivity : AppCompatActivity() {
         } catch (e: ApiException) {
             Log.w("GoogleLogin", "Błąd logowania: ${e.statusCode}")
         }
+    }
+
+    fun initializeGoogle(): HealthConnectClient {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+        gsc = GoogleSignIn.getClient(this, gso)
+        val acct = GoogleSignIn.getLastSignedInAccount(this)
+        return HealthConnectClient.getOrCreate(this@GoogleLoginActivity)
     }
 }

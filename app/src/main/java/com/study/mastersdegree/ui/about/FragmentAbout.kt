@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.study.mastersdegree.R
 import com.study.mastersdegree.databinding.FragmentAboutBinding
 import com.study.mastersdegree.databinding.FragmentDashboardBinding
-import com.study.mastersdegree.ui.dashboard.DashboardViewModel
 
 class FragmentAbout : Fragment() {
 

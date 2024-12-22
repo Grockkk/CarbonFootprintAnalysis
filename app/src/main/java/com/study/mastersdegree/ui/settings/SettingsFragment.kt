@@ -53,6 +53,11 @@ class SettingsFragment : Fragment() {
             binding.editDouble.setText(doubleValue.toString())
         }
 
+        // Ustawienie EditText na zapisanej wartości
+        sharedViewModel.globalGoal.observe(viewLifecycleOwner) { goalValue ->
+            binding.editGoal.setText(goalValue.toString())
+        }
+
         // Obsługa przycisku Save
         binding.buttonSave.setOnClickListener {
             val selectedText = spinner.selectedItem.toString()
@@ -61,11 +66,14 @@ class SettingsFragment : Fragment() {
             val doubleInput: EditText = binding.editDouble
             val doubleValue = doubleInput.text.toString().toDoubleOrNull()
 
-            if (doubleValue != null) {
+            val goalInput: EditText = binding.editGoal
+            val goalValue = goalInput.text.toString().toIntOrNull()
+
+            if (doubleValue != null && goalValue != null) {
                 sharedViewModel.setGlobalDouble(doubleValue)
                 Toast.makeText(requireContext(), "Values saved", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "Please enter a valid number", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please enter a valid number $goalValue", Toast.LENGTH_SHORT).show()
             }
         }
 

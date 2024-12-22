@@ -39,7 +39,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -55,7 +54,14 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("org.osmdroid:osmdroid-android:6.1.14")
+
+    // Google (maybe use of Firebase)
     implementation("com.google.firebase:firebase-auth-ktx:22.0.0")
     implementation("com.google.android.gms:play-services-auth:20.5.0")
-    implementation("androidx.health.connect:connect-client:1.0.0-alpha10")
+
+    // Health connect
+    implementation("androidx.health.connect:connect-client:1.1.0-alpha06")
+
+    // Charts
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

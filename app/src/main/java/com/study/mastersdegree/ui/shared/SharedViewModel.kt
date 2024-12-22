@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
-
     private val prefs = application.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     private val _globalString = MutableLiveData<String>().apply {
@@ -21,6 +20,11 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
     val globalDouble: LiveData<Double> get() = _globalDouble
 
+    private val _globalGoal = MutableLiveData<Int>().apply {
+        value = prefs.getInt("global_goal", 0) // domyślna wartość
+    }
+    val globalGoal: LiveData<Int> get() = _globalGoal
+
     fun setGlobalString(value: String) {
         _globalString.value = value
         prefs.edit().putString("global_string", value).apply()
@@ -29,5 +33,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     fun setGlobalDouble(value: Double) {
         _globalDouble.value = value
         prefs.edit().putFloat("global_double", value.toFloat()).apply()
+    }
+
+    fun setGlobalGoal(value: Int) {
+        _globalGoal.value = value
+        prefs.edit().putInt("global_goal", value).apply() // Poprawiony klucz
     }
 }
