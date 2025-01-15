@@ -23,7 +23,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="remaining_distance">Pozostało do celu: %.1f m</string>
-    <string name="daily_distance">Dystans: %.1f m</string>
+    <string name="daily_distance">Dystans: %.1f km</string>
     <string name="daily_emissions">CO2: %.2f kg</string>
     <string name="daily_cost">Koszt: %.2f zł</string>
     <string-array name="spinner_options">
