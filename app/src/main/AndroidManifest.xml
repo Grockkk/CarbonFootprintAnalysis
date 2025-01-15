@@ -23,6 +23,7 @@
         <activity
             android:name=".GoogleLoginActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
@@ -31,7 +32,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-
         <!-- For versions starting Android 14, create an activity alias to show the rationale
      of Health Connect permissions once users click the privacy policy link. -->
         <activity-alias

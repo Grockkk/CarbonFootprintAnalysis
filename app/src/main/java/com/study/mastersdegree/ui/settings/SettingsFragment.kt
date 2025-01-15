@@ -70,6 +70,8 @@ class SettingsFragment : Fragment() {
 
             if (doubleValue != null && goalValue != null) {
                 sharedViewModel.setGlobalDouble(doubleValue)
+                sharedViewModel.setGlobalGoal(goalValue)
+
                 Toast.makeText(requireContext(), "Values saved", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(requireContext(), "Please enter a valid numbers", Toast.LENGTH_SHORT).show()

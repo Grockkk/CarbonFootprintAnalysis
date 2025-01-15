@@ -6,12 +6,13 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.study.mastersdegree.helpers.EmissionCalculator
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
     private val prefs = application.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     private val _globalString = MutableLiveData<String>().apply {
-        value = prefs.getString("global_string", "Option 1") // domyślna wartość
+        value = prefs.getString("global_string", "Benzyna") // domyślna wartość
     }
     val globalString: LiveData<String> get() = _globalString
 
@@ -38,5 +39,13 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     fun setGlobalGoal(value: Int) {
         _globalGoal.value = value
         prefs.edit().putInt("global_goal", value).apply() // Poprawiony klucz
+    }
+
+    fun calculateEmissionAndCostForDistance(distanceInKm: Double): Pair<Double, Double> {
+        val fuelType = _globalString.value ?: "Benzyna" // Domyślny typ paliwa
+        val fuelPrice = _globalDouble.value ?: 0.0 // Domyślna cena paliwa
+
+        val calculator = EmissionCalculator()
+        return calculator.calculateEmissionsAndCost(distanceInKm, fuelType, fuelPrice)
     }
 }
