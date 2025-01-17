@@ -1,57 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/background_color"
     android:padding="16dp">
 
     <!-- Pozostały dystans -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/settings_background">
+
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/circularProgressBar"
+        android:layout_width="220sp"
+        android:layout_height="220sp"
+        android:layout_marginTop="10sp"
+        android:layout_marginBottom="10sp"
+        android:layout_centerInParent="true"
+        app:cpb_background_progressbar_color="@color/background_color"
+        app:cpb_background_progressbar_width="10dp"
+        app:cpb_progress_direction="to_right"
+        app:cpb_progress_max="8000"
+        app:cpb_progressbar_color="@color/teal_700"
+        app:cpb_progressbar_width="15dp"
+        app:cpb_round_border="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/text_remaining_distance"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pozostało do celu: 0 m"
-        android:textSize="18sp"
         android:gravity="center"
-        android:layout_marginBottom="16dp" />
+        android:text="0 m"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/circularProgressBar"
+        app:layout_constraintEnd_toEndOf="@+id/circularProgressBar"
+        app:layout_constraintStart_toStartOf="@+id/circularProgressBar"
+        app:layout_constraintTop_toTopOf="@+id/circularProgressBar" />
 
     <!-- Informacje dzienne -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:gravity="center">
+        app:layout_constraintStart_toStartOf="parent"
+        android:weightSum="3"
+        android:paddingTop="20sp"
+        android:paddingBottom="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/circularProgressBar">
 
-        <!-- Pokonany dystans -->
-        <TextView
-            android:id="@+id/text_daily_distance"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dystans: 0 m"
-            android:layout_marginEnd="16dp" />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <!-- Emisje CO2 -->
+            <ImageView
+                android:layout_width="35sp"
+                android:layout_height="35sp"
+                android:layout_gravity="center"
+                android:src="@drawable/distance" />
+
+            <TextView
+                android:id="@+id/text_daily_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dystans: 0 m"
+                android:layout_gravity="center"
+                android:paddingTop="10sp"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/circularProgressBar" />
+
+        </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:src="@drawable/co2"
+            android:layout_gravity="center"/>
+
         <TextView
             android:id="@+id/text_daily_emissions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="CO2: 0 kg"
-            android:layout_marginEnd="16dp" />
+            android:paddingTop="10sp"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@+id/text_daily_cost"
+            app:layout_constraintStart_toEndOf="@+id/text_daily_distance"
+            app:layout_constraintTop_toBottomOf="@+id/circularProgressBar" />
+    </LinearLayout>
 
-        <!-- Koszt -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:src="@drawable/fuel"
+            android:layout_gravity="center"/>
+
         <TextView
             android:id="@+id/text_daily_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Koszt: 0 zł" />
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="Koszt: 0 zł"
+            android:paddingTop="10sp"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/circularProgressBar" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/text_air_quality"
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Jakość powietrza: N/A"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:layout_marginTop="16dp" />
+        android:background="@drawable/air_qual_background"
+        android:layout_marginTop="20sp">
+
+        <ImageView
+            android:id="@+id/faceImage"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:src="@drawable/neutral_face"
+            android:layout_marginLeft="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_air_quality"
+            android:layout_width="wrap_content"
+            android:layout_height="50sp"
+            android:gravity="center"
+            android:text="Jakość powietrza: Ładowanie..."
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/faceImage"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/air_qual_background"
+        android:layout_marginTop="20sp">
+
+        <ImageView
+            android:id="@+id/weatherImage"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:src="@drawable/sun"
+            android:layout_marginLeft="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textWeather"
+            android:layout_width="wrap_content"
+            android:layout_height="50sp"
+            android:gravity="center"
+            android:text="Pogoda: Ładowanie..."
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/weatherImage"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>

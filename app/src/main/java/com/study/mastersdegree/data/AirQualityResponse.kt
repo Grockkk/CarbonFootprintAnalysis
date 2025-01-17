@@ -9,3 +9,13 @@ data class AirQualityData(
     val components: ComponentsData,
     val dt: Long
 )
+
+data class WeatherResponse(
+    val weather: List<WeatherDescription>,
+    val main: WeatherMain
+)
+
+data class WeatherDescription(
+    val description: String
+)
+

@@ -13,4 +13,11 @@
     <color name="rest_color">#BCCCDC</color>
     <color name="last_color">#9AA6B2</color>
 
+    <color name="face_dark_green">#338311</color>
+    <color name="face_light_green">#5cde24</color>
+    <color name="face_yellow">#e8eb37</color>
+    <color name="face_red">#fa1a1a</color>
+    <color name="face_purple">#391058</color>
+
+
 </resources>
