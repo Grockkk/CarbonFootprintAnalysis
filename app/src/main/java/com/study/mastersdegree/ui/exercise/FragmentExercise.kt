@@ -16,24 +16,29 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.*
 import com.study.mastersdegree.R
+import com.study.mastersdegree.helpers.EmissionCalculator
 import org.osmdroid.config.Configuration
+import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
-import org.osmdroid.util.GeoPoint
 
 class FragmentExercise : Fragment() {
 
+    // Timer variables
     private var isRunning = false
     private var elapsedTime: Long = 0L
     private var startTime: Long = 0L
 
+    // UI elements
     private lateinit var timerText: TextView
     private lateinit var distanceText: TextView
-    private lateinit var timeElapsedText: TextView
+    private lateinit var emissionText: TextView
+    private lateinit var costText: TextView
     private lateinit var buttonStart: Button
     private lateinit var buttonPause: Button
     private lateinit var buttonStop: Button
 
+    // Location variables
     private val handler = Handler(Looper.getMainLooper())
     private var distanceTravelled = 0.0
     private var lastLocation: Location? = null
@@ -41,6 +46,13 @@ class FragmentExercise : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private lateinit var mapView: MapView
+
+    // Emission and cost calculator
+    private lateinit var emissionCalculator: EmissionCalculator
+
+    // Dynamic values for fuel type and price
+    private var fuelType = "Benzyna" // Default fuel type
+    private var fuelPricePerLiter = 6.0 // Default fuel price in PLN
 
     private val updateTimerRunnable = object : Runnable {
         override fun run() {
@@ -71,11 +83,13 @@ class FragmentExercise : Fragment() {
         // Initialize UI elements
         timerText = root.findViewById(R.id.timer_text)
         distanceText = root.findViewById(R.id.distance_text)
-        timeElapsedText = root.findViewById(R.id.time_elapsed)
+        emissionText = root.findViewById(R.id.emission_text)
+        costText = root.findViewById(R.id.cost_text)
         buttonStart = root.findViewById(R.id.button_start)
         buttonPause = root.findViewById(R.id.button_pause)
         buttonStop = root.findViewById(R.id.button_stop)
 
+        // Initialize listeners
         buttonStart.setOnClickListener { startTimer() }
         buttonPause.setOnClickListener { pauseTimer() }
         buttonStop.setOnClickListener { stopTimer() }
@@ -84,6 +98,9 @@ class FragmentExercise : Fragment() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         initializeLocationTracking()
 
+        // Initialize emission calculator
+        emissionCalculator = EmissionCalculator()
+
         return root
     }
 
@@ -91,10 +108,9 @@ class FragmentExercise : Fragment() {
         mapView.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK)
         mapView.setMultiTouchControls(true)
 
-        // Set initial position (e.g., Warsaw)
         val mapController = mapView.controller
         mapController.setZoom(15.0)
-        val startPoint = GeoPoint(52.2297, 21.0122)
+        val startPoint = GeoPoint(50.064535606764245, 19.92365699452155)
         mapController.setCenter(startPoint)
 
         // Add a marker for the start location
@@ -118,7 +134,19 @@ class FragmentExercise : Fragment() {
                         updateMapLocation(location)
                     }
                     // Update distance display in kilometers
-                    distanceText.text = "Distance: %.2f km".format(distanceTravelled / 1000)
+                    val distanceInKm = distanceTravelled / 1000
+                    distanceText.text = "Distance: %.2f km".format(distanceInKm)
+
+                    // Calculate emissions and cost
+                    val (totalEmissions, totalCost) = emissionCalculator.calculateEmissionsAndCost(
+                        distanceInKm = distanceInKm,
+                        fuelType = fuelType,
+                        fuelPricePerLiter = fuelPricePerLiter
+                    )
+
+                    // Update emissions and cost display
+                    emissionText.text = "CO₂ Emissions: %.2f kg".format(totalEmissions)
+                    costText.text = "Fuel Cost: %.2f PLN".format(totalCost)
                 }
             }
         }
@@ -205,13 +233,13 @@ class FragmentExercise : Fragment() {
             stopLocationUpdates()
         }
 
-        timeElapsedText.text = "Time Elapsed: ${formatTime(elapsedTime)}\nDistance: %.2f km".format(distanceTravelled / 1000)
-        timeElapsedText.visibility = View.VISIBLE
-
-        elapsedTime = 0L
-        distanceTravelled = 0.0
         timerText.text = "00:00:00"
         distanceText.text = "Distance: 0.0 km"
+        emissionText.text = "CO₂ Emissions: 0.0 kg"
+        costText.text = "Fuel Cost: 0.0 PLN"
+        distanceTravelled = 0.0
+        elapsedTime = 0L
+
         buttonStart.visibility = View.VISIBLE
         buttonPause.visibility = View.GONE
         buttonStop.visibility = View.GONE
