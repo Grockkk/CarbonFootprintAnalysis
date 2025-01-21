@@ -12,7 +12,10 @@ data class AirQualityData(
 
 data class WeatherResponse(
     val weather: List<WeatherDescription>,
-    val main: WeatherMain
+    val main: WeatherMain,
+    val wind: Wind,
+    val rain: Rain?,
+    val snow: Snow?
 )
 
 data class WeatherDescription(

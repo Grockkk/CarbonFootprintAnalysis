@@ -97,6 +97,14 @@ class HomeFragment : Fragment() {
                     if (airQualityData != null) {
                         val aqi = airQualityData.main.aqi
                         updateAirQualityUI(aqi)
+
+                        // Przypisz wartości poszczególnych związków chemicznych
+                        val components = airQualityData.components
+                        binding.idPm25.text = getString(R.string.pollutant_value, components.pm2_5)
+                        binding.idPm10.text = getString(R.string.pollutant_value, components.pm10)
+                        binding.idCo.text = getString(R.string.pollutant_value, components.co)
+                        binding.idNo.text = getString(R.string.pollutant_value, components.no)
+                        binding.idSo.text = getString(R.string.pollutant_value, components.so2)
                     } else {
                         binding.textAirQuality.text = "Brak danych o jakości powietrza"
                     }
@@ -123,7 +131,11 @@ class HomeFragment : Fragment() {
                     if (weatherData != null) {
                         val description = weatherData.weather.firstOrNull()?.description ?: "Brak opisu"
                         val temperature = weatherData.main.temp
-                        updateWeatherUI(description, temperature)
+                        val pressure = weatherData.main.pressure
+                        val windSpeed = weatherData.wind.speed
+                        val precipitation = weatherData.rain?.oneHour ?: weatherData.snow?.oneHour ?: 0.0
+
+                        updateWeatherUI(description, temperature, pressure, windSpeed, precipitation)
                     } else {
                         binding.textWeather.text = "Brak danych o pogodzie"
                     }
@@ -141,23 +153,27 @@ class HomeFragment : Fragment() {
     private val weatherIconMap = mapOf(
         "bezchmurnie" to R.drawable.sun,
         "zachmurzenie" to R.drawable.cloudy,
-        "scattered clouds" to R.drawable.cloud,
         "broken clouds" to R.drawable.cloud,
         "shower rain" to R.drawable.rain,
         "opady deszczu" to R.drawable.rain,
         "burza" to R.drawable.thunderstorm,
         "opady śniegu" to R.drawable.snowy,
-        "zamglenia" to R.drawable.fog
+        "zamglenia" to R.drawable.fog,
+        "mgła" to R.drawable.fog
     )
 
-    private fun updateWeatherUI(description: String, temperature: Double) {
-        val weatherText = "$description, Temp: ${temperature}°C"
+    private fun updateWeatherUI(description: String, temperature: Double, pressure: Double, windSpeed: Double, precipitation: Double) {
+        val weatherText = description.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
         binding.textWeather.text = weatherText
 
         val iconResId = weatherIconMap.entries.firstOrNull { description.contains(it.key, ignoreCase = true) }?.value
             ?: R.drawable.cloud // Domyślna ikona
 
         binding.weatherImage.setImageResource(iconResId)
+        binding.idTemp.text = "Temperatura: %.1f°C".format(temperature)
+        binding.idCis.text = "Ciśnienie: %.1f hPa".format(pressure)
+        binding.idWiatr.text = "Prędkość wiatru: %.1f m/s".format(windSpeed)
+        binding.idOpad.text = "Opady: %.1f mm".format(precipitation)
     }
 
     private fun updateAirQualityUI(aqi: Int) {
@@ -198,7 +214,7 @@ class HomeFragment : Fragment() {
             }
         }
 
-        binding.textAirQuality.text = "Jakość powietrza: $airQualityText"
+        binding.textAirQuality.text = "$airQualityText"
         binding.faceImage.setImageResource(iconResId)
         binding.faceImage.setColorFilter(
             requireContext().getColor(colorResId),

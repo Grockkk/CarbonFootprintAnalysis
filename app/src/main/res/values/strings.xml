@@ -26,6 +26,7 @@
     <string name="daily_distance">Dystans: %.1f km</string>
     <string name="daily_emissions">CO2: %.2f kg</string>
     <string name="daily_cost">Koszt: %.2f zł</string>
+    <string name="pollutant_value">%.2f µg/m³</string>
     <string-array name="spinner_options">
         <item>Benzyna</item>
         <item>Olej napędowy</item>
