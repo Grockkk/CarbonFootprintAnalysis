@@ -8,24 +8,25 @@
     android:background="@color/background_color"
     tools:context=".ui.settings.SettingsFragment">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:padding="10dp"
-        android:text="Zmień ustawienia aplikacji:"
-        android:layout_marginBottom="10dp"
-        android:textColor="@color/last_color"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/settings_background"
+        android:background="@drawable/air_qual_background"
         android:foregroundTint="#714242"
+        android:layout_marginTop="20sp"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:text="Zmień ustawienia aplikacji:"
+            android:layout_marginBottom="10dp"/>
 
         <Spinner
             android:id="@+id/spinner_string"
@@ -65,14 +66,6 @@
             android:layout_marginBottom="16dp"
             android:hint="Enter your daily distance goal"
             android:inputType="numberDecimal" />
-
-        <View
-            android:id="@+id/divider5"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/rest_color" />
 
         <Button
             android:id="@+id/button_save"

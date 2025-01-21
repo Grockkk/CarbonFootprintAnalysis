@@ -11,8 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
+import androidx.core.view.marginRight
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.*
 import com.study.mastersdegree.R
@@ -34,9 +38,14 @@ class FragmentExercise : Fragment() {
     private lateinit var distanceText: TextView
     private lateinit var emissionText: TextView
     private lateinit var costText: TextView
-    private lateinit var buttonStart: Button
-    private lateinit var buttonPause: Button
-    private lateinit var buttonStop: Button
+    private lateinit var buttonStart: ImageButton
+    private lateinit var buttonPause: ImageButton
+    private lateinit var buttonStop: ImageButton
+    private lateinit var historyLayout: LinearLayout
+    private lateinit var histEmissionText: TextView
+    private lateinit var histDistanceText: TextView
+    private lateinit var histCostText: TextView
+
 
     // Location variables
     private val handler = Handler(Looper.getMainLooper())
@@ -81,6 +90,7 @@ class FragmentExercise : Fragment() {
         initializeMap()
 
         // Initialize UI elements
+        historyLayout = root.findViewById(R.id.history_layout)
         timerText = root.findViewById(R.id.timer_text)
         distanceText = root.findViewById(R.id.distance_text)
         emissionText = root.findViewById(R.id.emission_text)
@@ -88,6 +98,10 @@ class FragmentExercise : Fragment() {
         buttonStart = root.findViewById(R.id.button_start)
         buttonPause = root.findViewById(R.id.button_pause)
         buttonStop = root.findViewById(R.id.button_stop)
+        histDistanceText = root.findViewById(R.id.hist_dyst_text)
+        histCostText = root.findViewById(R.id.hist_cost_text)
+        histEmissionText = root.findViewById(R.id.hist_emission_text)
+
 
         // Initialize listeners
         buttonStart.setOnClickListener { startTimer() }
@@ -135,7 +149,7 @@ class FragmentExercise : Fragment() {
                     }
                     // Update distance display in kilometers
                     val distanceInKm = distanceTravelled / 1000
-                    distanceText.text = "Distance: %.2f km".format(distanceInKm)
+                    distanceText.text = "%.2f km".format(distanceInKm)
 
                     // Calculate emissions and cost
                     val (totalEmissions, totalCost) = emissionCalculator.calculateEmissionsAndCost(
@@ -145,8 +159,8 @@ class FragmentExercise : Fragment() {
                     )
 
                     // Update emissions and cost display
-                    emissionText.text = "CO₂ Emissions: %.2f kg".format(totalEmissions)
-                    costText.text = "Fuel Cost: %.2f PLN".format(totalCost)
+                    emissionText.text = "%.2f kg".format(totalEmissions)
+                    costText.text = "%.2f PLN".format(totalCost)
                 }
             }
         }
@@ -220,6 +234,7 @@ class FragmentExercise : Fragment() {
             handler.removeCallbacks(updateTimerRunnable)
             stopLocationUpdates()
 
+
             buttonStart.visibility = View.VISIBLE
             buttonPause.visibility = View.GONE
         }
@@ -233,11 +248,20 @@ class FragmentExercise : Fragment() {
             stopLocationUpdates()
         }
 
+        // Pobierz wartości do wyświetlenia
+        val distanceValue = "%.2f km".format(distanceTravelled / 1000)
+        val emissionValue = emissionText.text.toString()
+        val costValue = costText.text.toString()
+
+        // Dodaj wyniki do historii
+        addRunToHistory(distanceValue, emissionValue, costValue)
+
+        // Resetuj UI
         timerText.text = "00:00:00"
-        distanceText.text = "Distance: 0.0 km"
-        emissionText.text = "CO₂ Emissions: 0.0 kg"
-        costText.text = "Fuel Cost: 0.0 PLN"
-        distanceTravelled = 0.0
+        distanceText.text = "0.00 km"
+        emissionText.text = "0.00 kg"
+        costText.text = "0.00 PLN"
+        distanceTravelled = 0.00
         elapsedTime = 0L
 
         buttonStart.visibility = View.VISIBLE
@@ -250,6 +274,14 @@ class FragmentExercise : Fragment() {
         val minutes = timeInMillis / 60000 % 60
         val hours = timeInMillis / 3600000
         return "%02d:%02d:%02d".format(hours, minutes, seconds)
+    }
+
+    private fun addRunToHistory(distance: String, emission: String, cost: String) {
+        historyLayout.visibility = View.VISIBLE
+
+        histEmissionText.text = "$emission"
+        histDistanceText.text = "$distance"
+        histCostText.text = "$cost"
     }
 
     override fun onDestroyView() {

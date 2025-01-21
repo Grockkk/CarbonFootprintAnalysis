@@ -24,7 +24,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="remaining_distance">Pozostało: %.1f m</string>
     <string name="daily_distance">Dystans: %.1f km</string>
-    <string name="daily_emissions">CO2: %.2f kg</string>
+    <string name="daily_emissions">CO₂: %.2f kg</string>
     <string name="daily_cost">Koszt: %.2f zł</string>
     <string name="pollutant_value">%.2f µg/m³</string>
     <string-array name="spinner_options">

@@ -103,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="CO2: 0 kg"
+            android:text="CO₂: 0 kg"
             android:paddingTop="10sp"
             android:textSize="15sp"
             app:layout_constraintEnd_toStartOf="@+id/text_daily_cost"
@@ -371,7 +371,7 @@
                 android:layout_width="15sp"
                 android:layout_height="15sp"
                 android:layout_marginLeft="20sp"
-                android:src="@drawable/neutral_face"
+                android:src="@drawable/thermometer"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -397,7 +397,7 @@
                 android:layout_width="15sp"
                 android:layout_height="15sp"
                 android:layout_marginLeft="20sp"
-                android:src="@drawable/neutral_face"
+                android:src="@drawable/barometer"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -423,7 +423,7 @@
                 android:layout_width="15sp"
                 android:layout_height="15sp"
                 android:layout_marginLeft="20sp"
-                android:src="@drawable/neutral_face"
+                android:src="@drawable/waterdrops"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -449,7 +449,7 @@
                 android:layout_width="15sp"
                 android:layout_height="15sp"
                 android:layout_marginLeft="20sp"
-                android:src="@drawable/neutral_face"
+                android:src="@drawable/wind"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

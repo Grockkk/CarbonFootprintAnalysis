@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="10dp"
     android:background="@color/background_color"
     tools:context=".ui.exercise.FragmentExercise">
 
@@ -17,40 +17,141 @@
     <!-- Timer and distance -->
     <TextView
         android:id="@+id/timer_text"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/air_qual_background"
+        android:padding="5sp"
+        android:textStyle="bold"
         android:text="00:00:00"
         android:textAlignment="center"
-        android:textSize="30sp"
-        android:layout_marginBottom="16dp" />
+        android:textSize="30sp" />
 
-    <TextView
-        android:id="@+id/distance_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Distance: 0.0 km"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:layout_marginBottom="8dp" />
+        android:weightSum="3"
+        android:orientation="horizontal">
 
-    <!-- New emissions and cost -->
-    <TextView
-        android:id="@+id/emission_text"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dyst"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:layout_marginBottom="8dp" />
+
+        <!-- New emissions and cost -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CO₂"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Koszt"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:layout_marginBottom="16dp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CO₂ Emissions: 0.0 kg"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:layout_marginBottom="8dp" />
+        android:weightSum="3"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/cost_text"
+        <TextView
+            android:id="@+id/distance_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.00 km"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:layout_marginBottom="8dp" />
+
+        <!-- New emissions and cost -->
+        <TextView
+            android:id="@+id/emission_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.00 kg"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/cost_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.00 PLN"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:layout_marginBottom="16dp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="10sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/rest_color" />
+
+    <LinearLayout
+        android:id="@+id/history_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Fuel Cost: 0.0 PLN"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:layout_marginBottom="16dp" />
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:paddingTop="10dp" >
+
+        <TextView
+            android:id="@+id/hist_dyst_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0 PLN"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/hist_emission_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0 PLN"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/hist_cost_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0 PLN"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:layout_marginBottom="16dp" />
+    </LinearLayout>
 
     <!-- Buttons -->
     <LinearLayout
@@ -59,35 +160,33 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <Button
+        <ImageButton
             android:id="@+id/button_start"
-            android:layout_width="wrap_content"
+            android:layout_width="70sp"
             android:layout_height="wrap_content"
-            android:text="Start" />
+            android:background="@drawable/settings_background"
+            android:padding="7sp"
+            android:src="@drawable/ic_start"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/button_pause"
-            android:layout_width="wrap_content"
+            android:layout_width="70sp"
             android:layout_height="wrap_content"
-            android:text="Pause"
-            android:layout_marginStart="16dp"
-            android:visibility="gone" />
+            android:background="@drawable/settings_background"
+            android:padding="7sp"
+            android:visibility="gone"
+            android:layout_marginRight="10sp"
+            android:src="@drawable/ic_pause"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/button_stop"
-            android:layout_width="wrap_content"
+            android:layout_width="70sp"
             android:layout_height="wrap_content"
-            android:text="Stop"
-            android:layout_marginStart="16dp"
-            android:visibility="gone" />
-    </LinearLayout>
+            android:background="@drawable/settings_background"
+            android:padding="7sp"
+            android:visibility="gone"
+            android:layout_marginLeft="10sp"
+            android:src="@drawable/ic_square"/>
 
-    <TextView
-        android:id="@+id/time_elapsed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textAlignment="center"
-        android:layout_marginTop="16dp"
-        android:visibility="gone" />
+    </LinearLayout>
 </LinearLayout>
