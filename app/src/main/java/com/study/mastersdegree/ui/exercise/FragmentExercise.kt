@@ -258,9 +258,9 @@ class FragmentExercise : Fragment() {
 
         // Resetuj UI
         timerText.text = "00:00:00"
-        distanceText.text = "0.00 km"
-        emissionText.text = "0.00 kg"
-        costText.text = "0.00 PLN"
+        distanceText.text = "0,00 km"
+        emissionText.text = "0,00 kg"
+        costText.text = "0,00 PLN"
         distanceTravelled = 0.00
         elapsedTime = 0L
 
