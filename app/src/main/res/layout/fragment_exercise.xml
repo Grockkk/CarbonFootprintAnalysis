@@ -22,9 +22,10 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/air_qual_background"
+        android:background="@drawable/settings_background"
         android:padding="5sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:text="00:00:00"
         android:textAlignment="center"
         android:textSize="30sp" />
@@ -41,6 +42,8 @@
             android:text="Dyst"
             android:textAlignment="center"
             android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_weight="1"
             android:layout_marginBottom="8dp" />
 
@@ -49,8 +52,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CO₂"
+            android:textColor="@color/black"
             android:textAlignment="center"
             android:textSize="20sp"
+            android:textStyle="bold"
             android:layout_weight="1"
             android:layout_marginBottom="8dp" />
 
@@ -58,8 +63,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Koszt"
+            android:textColor="@color/black"
             android:textAlignment="center"
             android:textSize="20sp"
+            android:textStyle="bold"
             android:layout_weight="1"
             android:layout_marginBottom="16dp" />
     </LinearLayout>
@@ -76,6 +83,7 @@
             android:layout_height="wrap_content"
             android:text="0,00 km"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="20sp"
             android:layout_weight="1"
@@ -90,6 +98,7 @@
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:text="0,00 kg"
+            android:textColor="@color/black"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -101,6 +110,7 @@
             android:text="0,00 PLN"
             android:textAlignment="center"
             android:textStyle="bold"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:layout_weight="1"
             android:layout_marginBottom="16dp" />
@@ -113,7 +123,7 @@
         android:layout_marginBottom="10sp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/rest_color" />
+        android:background="@color/white" />
 
     <LinearLayout
         android:id="@+id/history_layout"

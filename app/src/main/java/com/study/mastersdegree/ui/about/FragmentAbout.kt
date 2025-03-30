@@ -1,44 +1,38 @@
 package com.study.mastersdegree.ui.about
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.study.mastersdegree.R
 import com.study.mastersdegree.databinding.FragmentAboutBinding
-import com.study.mastersdegree.databinding.FragmentDashboardBinding
 
 class FragmentAbout : Fragment() {
 
-    private var _binding: FragmentAboutBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private var binding: FragmentAboutBinding? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val aboutViewModel =
-            ViewModelProvider(this).get(AboutViewModel::class.java)
 
-        _binding = FragmentAboutBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        binding = FragmentAboutBinding.inflate(inflater, container, false)
+        val root: View = binding!!.root
 
-        val textView: TextView = binding.textDashboard
-        aboutViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        setupExpandableSection(binding!!.question1, binding!!.answer1)
+
         return root
+    }
+
+    private fun setupExpandableSection(question: TextView, answer: TextView) {
+        question.setOnClickListener {
+            answer.visibility = if (answer.visibility == View.GONE) View.VISIBLE else View.GONE
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 }
