@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/settings_background"
+            android:layout_marginBottom="10sp"
             android:orientation="vertical">
 
             <TextView
@@ -49,6 +50,131 @@
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:visibility="gone"
+                android:layout_marginBottom="10sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/settings_background"
+            android:layout_marginBottom="10sp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/question2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Do czego służy ta aplikacja?"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:padding="8dp"
+                android:clickable="true"/>
+
+            <TextView
+                android:id="@+id/answer2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aplikacja służy do wyliczania ilość gazów cieplarnianych wydzielanych przez samochód oraz koszt spalanego paliwa."
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="10sp"
+                android:visibility="gone"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/settings_background"
+            android:layout_marginBottom="10sp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/question3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Dlaczego wykresy nie posiadają danych?"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:padding="8dp"
+                android:clickable="true"/>
+
+            <TextView
+                android:id="@+id/answer3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dane wykresów pobierane są przy pomocy Health Connect. Sprawdź czy udzieliłeś wszystkich potrzebnych zgód."
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:layout_marginBottom="10sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/settings_background"
+            android:layout_marginBottom="10sp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/question4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Skąd pochodzą grafiki użyte w aplikacji?"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:padding="8dp"
+                android:clickable="true"/>
+
+            <TextView
+                android:id="@+id/answer4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wszystkie grafiki pochodzą ze strony https://www.freepik.com."
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:layout_marginBottom="10sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/settings_background"
+            android:layout_marginBottom="70sp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/question5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Jak wyliczane jest wydzielane CO₂ oraz koszt paliwa?"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:padding="8dp"
+                android:clickable="true"/>
+
+            <TextView
+                android:id="@+id/answer5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wszytkie wartości obliczane są na podstawie danych ustawionych przez użytkownika w ustawieniach."
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:layout_marginBottom="10sp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp" />
         </LinearLayout>

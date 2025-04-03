@@ -33,52 +33,64 @@ class SettingsFragment : Fragment() {
     ): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
 
-        // Konfiguracja Google Sign-In Client
         googleSignInClient = GoogleSignIn.getClient(requireContext(), GoogleSignInOptions.DEFAULT_SIGN_IN)
 
-        // Konfiguracja Spinnera
         val spinner: Spinner = binding.spinnerString
         val options = resources.getStringArray(R.array.spinner_options)
         spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, options)
 
-        // Ustawienie Spinnera na zapisanej wartości
         sharedViewModel.globalString.observe(viewLifecycleOwner) { selectedOption ->
             val position = options.indexOf(selectedOption)
             if (position >= 0) spinner.setSelection(position)
         }
 
-        // Ustawienie EditText na zapisanej wartości
         sharedViewModel.globalDouble.observe(viewLifecycleOwner) { doubleValue ->
-            binding.editDouble.setText(doubleValue.toString())
+            binding.kosztPaliwa.setText("Koszt paliwa (obecnie $doubleValue zł):")
+            binding.editDouble.setText("")
         }
 
-        // Ustawienie EditText na zapisanej wartości
+        sharedViewModel.globalConsumption.observe(viewLifecycleOwner) { consumptionValue ->
+            binding.srednieSpalanie.setText("Średnie spalanie na 100km (obecnie $consumptionValue l):")
+            binding.editSpalanie.setText("")
+        }
+
         sharedViewModel.globalGoal.observe(viewLifecycleOwner) { goalValue ->
-            binding.editGoal.setText(goalValue.toString())
+            binding.dziennyCel.setText("Cel dziennego dystansu (obecnie $goalValue m):")
+            binding.editGoal.setText("")
         }
 
-        // Obsługa przycisku Save
         binding.buttonSave.setOnClickListener {
             val selectedText = spinner.selectedItem.toString()
+            var informationString = "Wartości: "
+            informationString += "Typ paliwa: $selectedText, "
             sharedViewModel.setGlobalString(selectedText)
 
             val doubleInput: EditText = binding.editDouble
             val doubleValue = doubleInput.text.toString().toDoubleOrNull()
 
+            val consumptionInput: EditText = binding.editSpalanie
+            val consumptionValue = consumptionInput.text.toString().toDoubleOrNull()
+
             val goalInput: EditText = binding.editGoal
             val goalValue = goalInput.text.toString().toIntOrNull()
 
-            if (doubleValue != null && goalValue != null) {
-                sharedViewModel.setGlobalDouble(doubleValue)
-                sharedViewModel.setGlobalGoal(goalValue)
 
-                Toast.makeText(requireContext(), "Values saved", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireContext(), "Please enter a valid numbers", Toast.LENGTH_SHORT).show()
+            if (doubleValue != null) {
+                sharedViewModel.setGlobalDouble(doubleValue)
+                informationString += "Koszt paliwa: $doubleValue, "
             }
+            if (goalValue != null) {
+                sharedViewModel.setGlobalGoal(goalValue)
+                informationString += "Cel dystansu: $goalValue" + "m, "
+            }
+            if (consumptionValue != null) {
+                sharedViewModel.setGlobalConsumption(consumptionValue)
+                informationString += "Średnie spalanie: $consumptionValue, "
+            }
+            informationString += "zostały zmienione"
+            Toast.makeText(requireContext(), informationString, Toast.LENGTH_LONG).show()
         }
 
-        // Obsługa przycisku Logout
         binding.buttonLogout.setOnClickListener {
             signOut()
         }
@@ -88,8 +100,7 @@ class SettingsFragment : Fragment() {
 
     private fun signOut() {
         googleSignInClient.signOut().addOnCompleteListener {
-            Toast.makeText(requireContext(), "Successfully signed out", Toast.LENGTH_SHORT).show()
-            // Przekierowanie do ekranu logowania
+            Toast.makeText(requireContext(), "Pomyślnie wylogowano", Toast.LENGTH_SHORT).show()
             val intent = Intent(requireContext(), GoogleLoginActivity::class.java)
             startActivity(intent)
             activity?.finish()

@@ -13,6 +13,16 @@
         android:orientation="vertical"
         android:padding="10dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="Wykres tygodniowy"
+            android:paddingBottom="5dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -248,6 +258,16 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="Wykres miesięczny"
+            android:paddingBottom="5dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

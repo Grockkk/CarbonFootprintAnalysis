@@ -15,15 +15,15 @@ class Charts {
             BarEntry(index.toFloat(), entry.value.toFloat())
         }
         val dataSet = BarDataSet(entries, title).apply {
-            color = context.getColor(android.R.color.holo_blue_light)
+            color = context.getColor(android.R.color.holo_purple)
             valueTextColor = context.getColor(android.R.color.black)
         }
         val barData = BarData(dataSet)
 
         barChart.run {
             this.data = barData
-            description.isEnabled = false // Ukrycie domyślnego opisu
-            extraTopOffset = 20f // Miejsce na tytuł
+            description.isEnabled = false
+            extraTopOffset = 20f
 
             xAxis.apply {
                 position = XAxis.XAxisPosition.BOTTOM
@@ -52,20 +52,20 @@ class Charts {
             Entry(index.toFloat(), entry.value.toFloat())
         }
         val dataSet = LineDataSet(entries, title).apply {
-            color = context.getColor(android.R.color.holo_blue_light)
+            color = context.getColor(android.R.color.holo_purple)
             valueTextColor = context.getColor(android.R.color.black)
             lineWidth = 2f
             setDrawFilled(true)
-            fillColor = context.getColor(android.R.color.holo_blue_light)
-            setCircleColor(context.getColor(android.R.color.holo_blue_dark))
+            fillColor = context.getColor(android.R.color.holo_purple)
+            setCircleColor(context.getColor(android.R.color.holo_purple))
             circleRadius = 5f
         }
         val lineData = LineData(dataSet)
 
         lineChart.run {
             this.data = lineData
-            description.isEnabled = false // Ukrycie domyślnego opisu
-            extraTopOffset = 20f // Miejsce na tytuł
+            description.isEnabled = false
+            extraTopOffset = 20f
 
             xAxis.apply {
                 position = XAxis.XAxisPosition.BOTTOM

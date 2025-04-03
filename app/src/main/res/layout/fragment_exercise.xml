@@ -37,9 +37,9 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="50sp"
             android:layout_height="wrap_content"
-            android:text="Dyst"
+            android:text="Dystans"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -49,7 +49,7 @@
 
         <!-- New emissions and cost -->
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="50sp"
             android:layout_height="wrap_content"
             android:text="CO₂"
             android:textColor="@color/black"
@@ -60,7 +60,7 @@
             android:layout_marginBottom="8dp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="50sp"
             android:layout_height="wrap_content"
             android:text="Koszt"
             android:textColor="@color/black"
@@ -79,7 +79,7 @@
 
         <TextView
             android:id="@+id/distance_text"
-            android:layout_width="wrap_content"
+            android:layout_width="50sp"
             android:layout_height="wrap_content"
             android:text="0,00 km"
             android:textAlignment="center"
@@ -93,7 +93,7 @@
 
         <TextView
             android:id="@+id/emission_text"
-            android:layout_width="wrap_content"
+            android:layout_width="50sp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
@@ -105,7 +105,7 @@
 
         <TextView
             android:id="@+id/cost_text"
-            android:layout_width="wrap_content"
+            android:layout_width="50sp"
             android:layout_height="wrap_content"
             android:text="0,00 PLN"
             android:textAlignment="center"

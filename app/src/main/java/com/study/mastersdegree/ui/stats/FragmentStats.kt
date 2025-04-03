@@ -55,7 +55,6 @@ class FragmentStats : Fragment() {
     }
 
     private fun setupClickListeners() {
-        // Przycisk dla wykresu słupkowego (tygodniowego)
         binding.idDistStatsBar.setOnClickListener {
             currentModeBar = Mode.DISTANCE
             updateBarUI()
@@ -69,7 +68,6 @@ class FragmentStats : Fragment() {
             updateBarUI()
         }
 
-        // Przycisk dla wykresu liniowego (miesięcznego)
         binding.idDistStatsLine.setOnClickListener {
             currentModeLine = Mode.DISTANCE
             updateLineUI()
@@ -87,24 +85,24 @@ class FragmentStats : Fragment() {
     private fun updateLineUI() {
         sharedViewModel.globalString.observe(viewLifecycleOwner) { fuelType ->
             sharedViewModel.globalDouble.observe(viewLifecycleOwner) { fuelPrice ->
-                val monthlyData = convertData(monthlyDistance, fuelType, fuelPrice, currentModeLine)
+                sharedViewModel.globalConsumption.observe(viewLifecycleOwner) { consumption ->
+                    val monthlyData = convertData(monthlyDistance, fuelType, fuelPrice,consumption, currentModeLine)
 
 
-                // Aktualizacja statystyk dla wykresu liniowego (miesięcznego)
-                val maxEntryLine = monthlyData.maxByOrNull { it.value }
-                val minEntryLine = monthlyData.minByOrNull { it.value }
-                val sumDistanceLine = monthlyData.values.sum()
+                    val maxEntryLine = monthlyData.maxByOrNull { it.value }
+                    val minEntryLine = monthlyData.minByOrNull { it.value }
+                    val sumDistanceLine = monthlyData.values.sum()
 
-                binding.maxLineValue.text = formatValue(maxEntryLine?.value, currentModeLine)
-                binding.maxLineDate.text = maxEntryLine?.key ?: "—"
+                    binding.maxLineValue.text = formatValue(maxEntryLine?.value, currentModeLine)
+                    binding.maxLineDate.text = maxEntryLine?.key ?: "—"
 
-                binding.minLineValue.text = formatValue(minEntryLine?.value, currentModeLine)
-                binding.minLineDate.text = minEntryLine?.key ?: "—"
+                    binding.minLineValue.text = formatValue(minEntryLine?.value, currentModeLine)
+                    binding.minLineDate.text = minEntryLine?.key ?: "—"
 
-                binding.sumLineValue.text = formatValue(sumDistanceLine, currentModeLine)
+                    binding.sumLineValue.text = formatValue(sumDistanceLine, currentModeLine)
 
-                // Aktualizacja wykresów
-                charts.createLineChart(requireContext(), binding.monthlyLineChart, monthlyData, getChartTitle(currentModeLine))
+                    charts.createLineChart(requireContext(), binding.monthlyLineChart, monthlyData, getChartTitle(currentModeLine))
+                }
             }
         }
     }
@@ -112,35 +110,46 @@ class FragmentStats : Fragment() {
     private fun updateBarUI() {
         sharedViewModel.globalString.observe(viewLifecycleOwner) { fuelType ->
             sharedViewModel.globalDouble.observe(viewLifecycleOwner) { fuelPrice ->
-                val weeklyData = convertData(weeklyDistance, fuelType, fuelPrice, currentModeBar)
+                sharedViewModel.globalConsumption.observe(viewLifecycleOwner) { consumption ->
+                    val weeklyData = convertData(
+                        weeklyDistance,
+                        fuelType,
+                        fuelPrice,
+                        consumption,
+                        currentModeBar
+                    )
 
-                // Aktualizacja statystyk dla wykresu słupkowego (tygodniowego)
-                val maxEntryBar = weeklyData.maxByOrNull { it.value }
-                val minEntryBar = weeklyData.minByOrNull { it.value }
-                val sumDistanceBar = weeklyData.values.sum()
+                    val maxEntryBar = weeklyData.maxByOrNull { it.value }
+                    val minEntryBar = weeklyData.minByOrNull { it.value }
+                    val sumDistanceBar = weeklyData.values.sum()
 
-                binding.maxBarValue.text = formatValue(maxEntryBar?.value, currentModeBar)
-                binding.maxBarDate.text = maxEntryBar?.key ?: "—"
+                    binding.maxBarValue.text = formatValue(maxEntryBar?.value, currentModeBar)
+                    binding.maxBarDate.text = maxEntryBar?.key ?: "—"
 
-                binding.minBarValue.text = formatValue(minEntryBar?.value, currentModeBar)
-                binding.minBarDate.text = minEntryBar?.key ?: "—"
+                    binding.minBarValue.text = formatValue(minEntryBar?.value, currentModeBar)
+                    binding.minBarDate.text = minEntryBar?.key ?: "—"
 
-                binding.sumBarValue.text = formatValue(sumDistanceBar, currentModeBar)
+                    binding.sumBarValue.text = formatValue(sumDistanceBar, currentModeBar)
 
-                // Aktualizacja wykresów
-                charts.createBarChart(requireContext(), binding.weeklyBarChart, weeklyData, getChartTitle(currentModeBar))
+                    charts.createBarChart(
+                        requireContext(),
+                        binding.weeklyBarChart,
+                        weeklyData,
+                        getChartTitle(currentModeBar)
+                    )
+                }
             }
         }
     }
 
-    private fun convertData(distanceData: Map<String, Double>, fuelType: String, fuelPrice: Double, mode: Mode): Map<String, Double> {
+    private fun convertData(distanceData: Map<String, Double>, fuelType: String, fuelPrice: Double, consumption: Double, mode: Mode): Map<String, Double> {
         return when (mode) {
             Mode.DISTANCE -> distanceData
             Mode.CO2 -> distanceData.mapValues {
-                emissionCalculator.calculateEmissionsAndCost(it.value / 1000, fuelType, fuelPrice).first
+                sharedViewModel.calculateEmissionAndCostForDistance(it.value / 1000).first
             }
             Mode.COST -> distanceData.mapValues {
-                emissionCalculator.calculateEmissionsAndCost(it.value / 1000, fuelType, fuelPrice).second
+                sharedViewModel.calculateEmissionAndCostForDistance(it.value / 1000).second
             }
         }
     }

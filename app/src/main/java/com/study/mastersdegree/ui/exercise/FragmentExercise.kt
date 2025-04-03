@@ -18,9 +18,11 @@ import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.view.marginRight
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.google.android.gms.location.*
 import com.study.mastersdegree.R
 import com.study.mastersdegree.helpers.EmissionCalculator
+import com.study.mastersdegree.ui.shared.SharedViewModel
 import org.osmdroid.config.Configuration
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
@@ -62,6 +64,8 @@ class FragmentExercise : Fragment() {
     // Dynamic values for fuel type and price
     private var fuelType = "Benzyna" // Default fuel type
     private var fuelPricePerLiter = 6.0 // Default fuel price in PLN
+    private var fuelConsumption = 6.0 // Default fuel price in PLN
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     private val updateTimerRunnable = object : Runnable {
         override fun run() {
@@ -147,18 +151,12 @@ class FragmentExercise : Fragment() {
                         // Update the map with the current location
                         updateMapLocation(location)
                     }
-                    // Update distance display in kilometers
                     val distanceInKm = distanceTravelled / 1000
                     distanceText.text = "%.2f km".format(distanceInKm)
 
-                    // Calculate emissions and cost
-                    val (totalEmissions, totalCost) = emissionCalculator.calculateEmissionsAndCost(
-                        distanceInKm = distanceInKm,
-                        fuelType = fuelType,
-                        fuelPricePerLiter = fuelPricePerLiter
-                    )
 
-                    // Update emissions and cost display
+                    val (totalEmissions, totalCost) = sharedViewModel.calculateEmissionAndCostForDistance(distanceInKm)
+
                     emissionText.text = "%.2f kg".format(totalEmissions)
                     costText.text = "%.2f PLN".format(totalCost)
                 }

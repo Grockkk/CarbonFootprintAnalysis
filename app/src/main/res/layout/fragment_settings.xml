@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background_color"
     tools:context=".ui.settings.SettingsFragment">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/settings_background"
         android:foregroundTint="#714242"
         android:layout_marginTop="20sp"
         android:orientation="vertical">
@@ -22,130 +25,129 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:padding="10dp"
+            android:textAlignment="center"
+            android:textSize="30sp"
             android:textStyle="bold"
-            android:text="Zmień ustawienia aplikacji:"
-            android:layout_marginBottom="10dp"/>
+            android:textColor="@color/black"
+            android:text="Ustawienia"
+            android:paddingBottom="16dp"/>
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/typ_paliwa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
+            android:textSize="16dp"
             android:textColor="@color/black"
-            android:padding="10dp"
+            android:paddingStart="10dp"
+            android:paddingBottom="5sp"
+            android:paddingTop="5sp"
+            android:layout_marginBottom="2dp"
             android:textStyle="bold"
             android:text="Typ paliwa:"
-            android:layout_marginBottom="10dp"/>
+/>
 
         <Spinner
             android:id="@+id/spinner_string"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:textColor="@color/black"
-            android:layout_marginBottom="16dp" />
-
-        <View
-            android:id="@+id/divider3"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/background_color" />
+            android:paddingStart="10sp"
+            android:paddingBottom="4dp"
+            android:paddingTop="4sp"
+            android:background="@drawable/custom_input"            android:layout_marginBottom="16dp" />
 
         <TextView
+            android:id="@+id/koszt_paliwa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
+            android:textSize="16dp"
             android:textColor="@color/black"
-            android:padding="10dp"
+            android:paddingStart="10dp"
+            android:paddingBottom="5sp"
+            android:paddingTop="5sp"
+            android:layout_marginBottom="2dp"
             android:textStyle="bold"
-            android:text="Koszt paliwa:"
-            android:layout_marginBottom="10dp"/>
+            android:text="Koszt paliwa:" />
 
         <EditText
             android:id="@+id/edit_double"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:textColor="@color/black"
-            android:hint="Wpisz cenę paliwa"
-            android:inputType="numberDecimal" />
-
-        <View
-            android:id="@+id/divider4"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/background_color" />
+            android:hint="Wpisz cenę paliwa [zł]"
+            android:background="@drawable/custom_input"
+            android:padding="10sp"
+            android:inputType="numberDecimal"/>
 
         <TextView
+            android:id="@+id/srednie_spalanie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
+            android:textSize="16dp"
             android:textColor="@color/black"
-            android:padding="10dp"
+            android:paddingStart="10dp"
+            android:paddingBottom="5sp"
+            android:paddingTop="5sp"
+            android:layout_marginBottom="2dp"
             android:textStyle="bold"
-            android:text="Dzienny cel dystansu:"
-            android:layout_marginBottom="10dp"/>
-        
+            android:text="Średnie spalanie:" />
+
+        <EditText
+            android:id="@+id/edit_spalanie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/custom_input"
+            android:padding="10sp"
+            android:hint="Wpisz średnie spalanie paliwa [l]"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:id="@+id/dzienny_cel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:paddingStart="10dp"
+            android:paddingBottom="5sp"
+            android:paddingTop="5sp"
+            android:layout_marginBottom="2dp"
+            android:textStyle="bold"
+            android:text="Dzienny cel dystansu:" />
+
         <EditText
             android:id="@+id/edit_goal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:textColor="@color/black"
-            android:hint="Wpisz dzienny cel dsytansu"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/custom_input"
+            android:padding="10sp"
+            android:hint="Wpisz dzienny cel dsytansu [m]"
             android:inputType="numberDecimal" />
 
         <Button
             android:id="@+id/button_save"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10sp"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/background_color"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/dark_gray"
             android:text="Zapisz" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/settings_background"
-        android:foregroundTint="#714242"
-        android:layout_marginTop="20sp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:text="Wyloguj się z aplikacji:" />
 
         <Button
             android:id="@+id/button_logout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="clip_horizontal"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="30sp"
             android:textColor="@color/black"
-            android:backgroundTint="@color/background_color"
+            android:backgroundTint="@color/red"
             android:text="Wyloguj" />
 
     </LinearLayout>
 
-
 </LinearLayout>
+
+
+</ScrollView>

@@ -29,7 +29,18 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_about, R.id.navigation_stats, R.id.navigation_home, R.id.navigation_exercise, R.id.navigation_settings
             )
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.navigation_about -> supportActionBar?.title = "O aplikacji"
+                R.id.navigation_stats -> supportActionBar?.title = "Statystyki"
+                R.id.navigation_home -> supportActionBar?.title = "Strona główna"
+                R.id.navigation_exercise -> supportActionBar?.title = "Ćwiczenia"
+                R.id.navigation_settings -> supportActionBar?.title = "Ustawienia"
+                else -> supportActionBar?.title = "MastersDegree"
+            }
+        }
     }
 }
